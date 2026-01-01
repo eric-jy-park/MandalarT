@@ -1,0 +1,7 @@
+services:
+  mandalart:
+    build: .
+    container_name: mandalart
+    restart: unless-stopped
+    ports:
+      - "3002:80"
