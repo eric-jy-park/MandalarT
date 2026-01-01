@@ -181,9 +181,12 @@
       padding: 0.4rem 0.9rem;
       border: 2px solid var(--ink-primary);
       background: var(--paper-cream);
+      color: var(--ink-primary);
       cursor: pointer;
       border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
       transition: all 0.2s ease;
+      text-decoration: none;
+      -webkit-appearance: none;
     }
 
     .btn:hover {
@@ -819,10 +822,10 @@
 
   <!-- Toolbar -->
   <nav class="toolbar" role="toolbar" aria-label="도구 모음">
-    <button class="btn btn-subtle" onclick="openTipsModal()" aria-label="만다라트 작성 팁 보기">만다라트 팁</button>
+    <button class="btn btn-primary" onclick="openTipsModal()" aria-label="만다라트 작성 팁 보기">만다라트 팁</button>
     <button class="btn" onclick="loadExample()" aria-label="예시 데이터 불러오기">예시 보기</button>
-    <button class="btn btn-primary" onclick="saveAsImage()" aria-label="만다라트를 이미지로 저장">이미지 저장</button>
-    <button class="btn btn-danger" onclick="clearAll()" aria-label="모든 내용 초기화">초기화</button>
+    <button class="btn" onclick="saveAsImage()" aria-label="만다라트를 이미지로 저장">이미지 저장</button>
+    <button class="btn btn-primary" onclick="clearAll()" aria-label="모든 내용 초기화">초기화</button>
   </nav>
 
   <!-- Hidden export container -->
