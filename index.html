@@ -822,7 +822,6 @@
     <button class="btn btn-subtle" onclick="openTipsModal()" aria-label="만다라트 작성 팁 보기">만다라트 팁</button>
     <button class="btn" onclick="loadExample()" aria-label="예시 데이터 불러오기">예시 보기</button>
     <button class="btn btn-primary" onclick="saveAsImage()" aria-label="만다라트를 이미지로 저장">이미지 저장</button>
-    <button class="btn" onclick="exportJSON()" aria-label="데이터를 JSON 파일로 내보내기">데이터 내보내기</button>
     <button class="btn btn-danger" onclick="clearAll()" aria-label="모든 내용 초기화">초기화</button>
   </nav>
 
@@ -1243,17 +1242,6 @@
       }
 
       exportContainer.innerHTML = '';
-    }
-
-    function exportJSON() {
-      const dataStr = JSON.stringify(gridData, null, 2);
-      const blob = new Blob([dataStr], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'mandalart-data.json';
-      a.click();
-      URL.revokeObjectURL(url);
     }
 
     function clearAll() {
