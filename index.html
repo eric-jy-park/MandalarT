@@ -2,11 +2,68 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MandalarT — 목표를 디자인하세요</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>MandalarT — 목표를 디자인하세요 | 만다라트 차트 무료 생성</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="만다라트(Mandala Chart)로 목표를 체계적으로 설계하세요. 9x9 격자에 핵심 목표와 세부 실천 항목을 작성하고, 이미지로 저장하거나 데이터를 내보낼 수 있습니다. 무료 온라인 만다라트 도구.">
+  <meta name="keywords" content="만다라트, Mandala Chart, 목표 설정, 목표 관리, 자기계발, 성공, 습관, 계획표, 오타니 쇼헤이, mandala art, goal setting, productivity">
+  <meta name="author" content="Eric Park">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#f8f4e8">
+  <link rel="canonical" href="https://mandalart.ericpark.me/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mandalart.ericpark.me/">
+  <meta property="og:title" content="MandalarT — 목표를 디자인하세요">
+  <meta property="og:description" content="만다라트(Mandala Chart)로 목표를 체계적으로 설계하세요. 9x9 격자에 핵심 목표와 세부 실천 항목을 작성하고 저장할 수 있습니다.">
+  <meta property="og:image" content="https://mandalart.ericpark.me/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:site_name" content="MandalarT">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://mandalart.ericpark.me/">
+  <meta name="twitter:title" content="MandalarT — 목표를 디자인하세요">
+  <meta name="twitter:description" content="만다라트(Mandala Chart)로 목표를 체계적으로 설계하세요. 무료 온라인 만다라트 도구.">
+  <meta name="twitter:image" content="https://mandalart.ericpark.me/og-image.png">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "MandalarT",
+    "description": "만다라트(Mandala Chart)로 목표를 체계적으로 설계하세요. 9x9 격자에 핵심 목표와 세부 실천 항목을 작성할 수 있는 무료 온라인 도구입니다.",
+    "url": "https://mandalart.ericpark.me/",
+    "applicationCategory": "ProductivityApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "KRW"
+    },
+    "featureList": [
+      "9x9 만다라트 차트 작성",
+      "이미지로 저장",
+      "JSON 데이터 내보내기",
+      "로컬 저장소에 자동 저장"
+    ],
+    "inLanguage": "ko",
+    "author": {
+      "@type": "Person",
+      "name": "Eric Park"
+    }
+  }
+  </script>
 
   <!-- Favicon - generated dynamically with Caveat font -->
   <link rel="icon" id="favicon">
+  <link rel="apple-touch-icon" id="apple-touch-icon">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -612,62 +669,186 @@
       .mandalart-wrapper::before { display: none; }
     }
 
+    /* Tablet */
+    @media (max-width: 768px) {
+      .toolbar {
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        padding: 0.4rem 0.5rem;
+      }
+      .btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+      }
+      .legend {
+        gap: 1rem;
+      }
+    }
+
     /* Mobile */
     @media (max-width: 500px) {
       .header { padding: 0.5rem; }
       .logo { font-size: 1.5rem; }
       .tagline { font-size: 0.7rem; }
-      .toolbar { gap: 0.3rem; padding: 0.3rem; }
-      .btn { padding: 0.3rem 0.6rem; font-size: 0.75rem; }
+
+      .toolbar {
+        gap: 0.3rem;
+        padding: 0.3rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      /* Ensure minimum 44px touch targets for accessibility */
+      .btn {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.72rem;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       .legend { gap: 0.8rem; padding: 0.3rem; }
       .legend-item { font-size: 0.65rem; gap: 0.25rem; }
       .legend-color { width: 10px; height: 10px; }
       .mandalart-wrapper { padding: 0.5rem; }
       .footer { padding: 0.3rem; }
-      .modal { width: 95vw; }
-      .modal-textarea { min-height: 100px; }
+      .footer p { font-size: 0.65rem; }
+
+      /* Mobile modal improvements */
+      .modal {
+        width: 95vw;
+        max-height: 90vh;
+      }
+      .modal-header {
+        padding: 0.75rem 1rem;
+      }
+      .modal-body {
+        padding: 1rem;
+      }
+      .modal-textarea {
+        min-height: 100px;
+        font-size: 16px; /* Prevents iOS zoom on input focus */
+      }
+      .modal-footer {
+        padding: 0.75rem 1rem;
+      }
+      .modal-btn {
+        min-height: 44px;
+        padding: 0.6rem 1rem;
+      }
+      .modal-close {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Tips modal mobile */
+      .tips-modal {
+        max-height: 90vh;
+      }
+      .tips-body {
+        max-height: 65vh;
+      }
+    }
+
+    /* Very small screens */
+    @media (max-width: 360px) {
+      .header { padding: 0.35rem; }
+      .logo { font-size: 1.3rem; }
+      .tagline { display: none; }
+      .toolbar { gap: 0.25rem; padding: 0.25rem; }
+      .btn {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.68rem;
+        min-height: 40px;
+      }
+      .legend { gap: 0.5rem; }
+      .legend-item { font-size: 0.6rem; }
+      .main-container { padding: 0.15rem; }
+      .mandalart-wrapper { padding: 0.35rem; }
+      .footer { display: none; }
+    }
+
+    /* Landscape mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .header { padding: 0.25rem; }
+      .logo { font-size: 1.2rem; }
+      .tagline { display: none; }
+      .toolbar { padding: 0.2rem; gap: 0.25rem; }
+      .btn { padding: 0.3rem 0.5rem; font-size: 0.7rem; min-height: 36px; }
+      .legend { padding: 0.15rem; gap: 0.5rem; }
+      .legend-item { font-size: 0.6rem; }
+      .main-container { padding: 0.1rem; }
+      .mandalart-wrapper { padding: 0.3rem; }
+      .footer { display: none; }
+    }
+
+    /* Touch-friendly improvements */
+    @media (hover: none) and (pointer: coarse) {
+      .cell {
+        /* Subtle tap highlight for touch devices */
+        -webkit-tap-highlight-color: rgba(168, 197, 168, 0.3);
+      }
+      .btn {
+        /* Remove hover styles that don't work well on touch */
+        transition: transform 0.1s ease, background 0.1s ease;
+      }
+      .btn:active {
+        transform: scale(0.97);
+      }
+    }
+
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        animation: none !important;
+      }
     }
   </style>
 </head>
 <body>
   <!-- Header -->
-  <header class="header">
+  <header class="header" role="banner">
     <h1 class="logo">MandalarT</h1>
     <p class="tagline">목표를 디자인하고, 실천하세요</p>
   </header>
 
   <!-- Toolbar -->
-  <div class="toolbar">
-    <button class="btn btn-subtle" onclick="openTipsModal()">만다라트 팁</button>
-    <button class="btn" onclick="loadExample()">예시 보기</button>
-    <button class="btn btn-primary" onclick="saveAsImage()">이미지 저장</button>
-    <button class="btn" onclick="exportJSON()">데이터 내보내기</button>
-    <button class="btn btn-danger" onclick="clearAll()">초기화</button>
-  </div>
+  <nav class="toolbar" role="toolbar" aria-label="도구 모음">
+    <button class="btn btn-subtle" onclick="openTipsModal()" aria-label="만다라트 작성 팁 보기">만다라트 팁</button>
+    <button class="btn" onclick="loadExample()" aria-label="예시 데이터 불러오기">예시 보기</button>
+    <button class="btn btn-primary" onclick="saveAsImage()" aria-label="만다라트를 이미지로 저장">이미지 저장</button>
+    <button class="btn" onclick="exportJSON()" aria-label="데이터를 JSON 파일로 내보내기">데이터 내보내기</button>
+    <button class="btn btn-danger" onclick="clearAll()" aria-label="모든 내용 초기화">초기화</button>
+  </nav>
 
   <!-- Hidden export container -->
   <div id="exportContainer" style="position: absolute; left: -9999px; top: 0;"></div>
 
   <!-- Legend -->
-  <div class="legend">
-    <div class="legend-item">
-      <div class="legend-color center"></div>
+  <div class="legend" role="list" aria-label="범례">
+    <div class="legend-item" role="listitem">
+      <div class="legend-color center" aria-hidden="true"></div>
       <span>핵심 목표</span>
     </div>
-    <div class="legend-item">
-      <div class="legend-color sub"></div>
+    <div class="legend-item" role="listitem">
+      <div class="legend-color sub" aria-hidden="true"></div>
       <span>세부 목표</span>
     </div>
-    <div class="legend-item">
-      <div class="legend-color action"></div>
+    <div class="legend-item" role="listitem">
+      <div class="legend-color action" aria-hidden="true"></div>
       <span>실천 항목</span>
     </div>
   </div>
 
   <!-- Main Grid -->
-  <main class="main-container">
+  <main class="main-container" role="main">
     <div class="mandalart-wrapper">
-      <div class="mandalart-grid" id="mandalartGrid"></div>
+      <div class="mandalart-grid" id="mandalartGrid" role="grid" aria-label="만다라트 차트 - 클릭하여 편집"></div>
     </div>
   </main>
 
@@ -678,14 +859,14 @@
   </footer>
 
   <!-- Modal -->
-  <div class="modal-overlay" id="modalOverlay">
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTypeLabel">
     <div class="modal">
       <div class="modal-header">
         <div class="modal-type">
-          <div class="modal-type-dot" id="modalTypeDot"></div>
+          <div class="modal-type-dot" id="modalTypeDot" aria-hidden="true"></div>
           <span class="modal-type-label" id="modalTypeLabel"></span>
         </div>
-        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <button class="modal-close" onclick="closeModal()" aria-label="닫기">&times;</button>
       </div>
       <div class="modal-body">
         <div class="modal-context" id="modalContext"></div>
@@ -703,13 +884,13 @@
   </div>
 
   <!-- Tips Modal -->
-  <div class="modal-overlay" id="tipsModalOverlay">
+  <div class="modal-overlay" id="tipsModalOverlay" role="dialog" aria-modal="true" aria-labelledby="tipsModalTitle">
     <div class="modal tips-modal">
       <div class="modal-header">
         <div class="modal-type">
-          <span class="modal-type-label">효과적인 만다라트를 위한 팁</span>
+          <span class="modal-type-label" id="tipsModalTitle">효과적인 만다라트를 위한 팁</span>
         </div>
-        <button class="modal-close" onclick="closeTipsModal()">&times;</button>
+        <button class="modal-close" onclick="closeTipsModal()" aria-label="닫기">&times;</button>
       </div>
       <div class="modal-body tips-body">
         <div class="tip-section">
@@ -848,12 +1029,26 @@
 
           cell.classList.add(cellType);
 
+          // Add accessibility attributes
+          cell.setAttribute('role', 'gridcell');
+          cell.setAttribute('tabindex', '0');
+
           if (value) {
             textSpan.textContent = value;
+            cell.setAttribute('aria-label', `${cellType === 'center-main' ? '핵심 목표' : cellType === 'center-sub' || cellType === 'outer-center' ? '세부 목표' : '실천 항목'}: ${value}`);
           } else {
             textSpan.textContent = placeholder;
             textSpan.classList.add('cell-placeholder');
+            cell.setAttribute('aria-label', `${placeholder || '실천 항목'} - 클릭하여 입력`);
           }
+
+          // Add keyboard support
+          cell.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              cell.click();
+            }
+          });
 
           cell.appendChild(textSpan);
           grid.appendChild(cell);
@@ -1114,31 +1309,50 @@
     loadFromStorage();
     generateGrid();
 
-    // Generate favicon with Caveat font
+    // Generate favicon and apple-touch-icon with Caveat font
     document.fonts.ready.then(() => {
-      const canvas = document.createElement('canvas');
-      canvas.width = 64;
-      canvas.height = 64;
-      const ctx = canvas.getContext('2d');
+      // Generate favicon (64x64)
+      const faviconCanvas = document.createElement('canvas');
+      faviconCanvas.width = 64;
+      faviconCanvas.height = 64;
+      const faviconCtx = faviconCanvas.getContext('2d');
 
-      // Background
-      ctx.fillStyle = '#f8f4e8';
-      ctx.beginPath();
-      ctx.roundRect(0, 0, 64, 64, 10);
-      ctx.fill();
+      faviconCtx.fillStyle = '#f8f4e8';
+      faviconCtx.beginPath();
+      faviconCtx.roundRect(0, 0, 64, 64, 10);
+      faviconCtx.fill();
 
-      // Letter M in Caveat
-      ctx.fillStyle = '#2d2d2d';
-      ctx.font = '600 52px Caveat';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('M', 32, 36);
+      faviconCtx.fillStyle = '#2d2d2d';
+      faviconCtx.font = '600 52px Caveat';
+      faviconCtx.textAlign = 'center';
+      faviconCtx.textBaseline = 'middle';
+      faviconCtx.fillText('M', 32, 36);
 
-      // Set as favicon
-      const link = document.getElementById('favicon');
-      link.type = 'image/png';
-      link.href = canvas.toDataURL('image/png');
+      const faviconLink = document.getElementById('favicon');
+      faviconLink.type = 'image/png';
+      faviconLink.href = faviconCanvas.toDataURL('image/png');
+
+      // Generate apple-touch-icon (180x180)
+      const touchCanvas = document.createElement('canvas');
+      touchCanvas.width = 180;
+      touchCanvas.height = 180;
+      const touchCtx = touchCanvas.getContext('2d');
+
+      touchCtx.fillStyle = '#f8f4e8';
+      touchCtx.beginPath();
+      touchCtx.roundRect(0, 0, 180, 180, 28);
+      touchCtx.fill();
+
+      touchCtx.fillStyle = '#2d2d2d';
+      touchCtx.font = '600 145px Caveat';
+      touchCtx.textAlign = 'center';
+      touchCtx.textBaseline = 'middle';
+      touchCtx.fillText('M', 90, 100);
+
+      const touchLink = document.getElementById('apple-touch-icon');
+      touchLink.href = touchCanvas.toDataURL('image/png');
     });
+
   </script>
 </body>
 </html>
