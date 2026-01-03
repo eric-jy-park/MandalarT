@@ -974,6 +974,126 @@
         padding: 0.25rem 0;
       }
     }
+
+    /* ==================== INTERSTITIAL AD MODAL ==================== */
+    .interstitial-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(45, 45, 45, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .interstitial-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .interstitial-modal {
+      background: var(--paper-cream);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      width: min(90vw, 400px);
+      max-height: 90vh;
+      overflow: hidden;
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.3s ease;
+      text-align: center;
+    }
+
+    .interstitial-overlay.active .interstitial-modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .interstitial-header {
+      padding: 1.25rem;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .interstitial-header h3 {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      color: var(--ink-primary);
+      margin: 0;
+    }
+
+    .interstitial-header p {
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      margin-top: 0.25rem;
+    }
+
+    .interstitial-body {
+      padding: 1.5rem;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .interstitial-ad-container {
+      width: 100%;
+      min-height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--paper-light);
+      border: 2px dashed var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .interstitial-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .interstitial-timer {
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .interstitial-timer span {
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .interstitial-btn {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 0.75rem 2rem;
+      border: 2px solid var(--ink-primary);
+      background: var(--ink-primary);
+      color: var(--paper-cream);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+
+    .interstitial-btn:disabled {
+      background: var(--ink-muted);
+      border-color: var(--ink-muted);
+      cursor: not-allowed;
+    }
+
+    .interstitial-btn:not(:disabled):hover {
+      background: var(--ink-secondary);
+      border-color: var(--ink-secondary);
+    }
   </style>
 </head>
 <body>
@@ -1052,6 +1172,34 @@
                data-full-width-responsive="false"></ins>
         </div>
       </aside>
+    </div>
+  </div>
+
+  <!-- Interstitial Ad Modal -->
+  <div class="interstitial-overlay" id="interstitialOverlay" role="dialog" aria-modal="true" aria-labelledby="interstitialTitle">
+    <div class="interstitial-modal">
+      <div class="interstitial-header">
+        <h3 id="interstitialTitle">잠시만 기다려주세요</h3>
+        <p>이미지 저장을 준비하고 있습니다</p>
+      </div>
+      <div class="interstitial-body">
+        <div class="interstitial-ad-container">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-2006819706382142"
+               data-ad-slot="9155759078"
+               data-ad-format="rectangle"
+               data-full-width-responsive="false"></ins>
+        </div>
+      </div>
+      <div class="interstitial-footer">
+        <div class="interstitial-timer">
+          <span id="countdownTimer">5</span>초 후에 다운로드할 수 있습니다
+        </div>
+        <button class="interstitial-btn" id="downloadBtn" disabled onclick="proceedDownload()">
+          다운로드
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1368,7 +1516,58 @@
       }
     }
 
-    async function saveAsImage() {
+    let countdownInterval = null;
+
+    function saveAsImage() {
+      // Show interstitial ad modal
+      const overlay = document.getElementById('interstitialOverlay');
+      const timerDiv = document.querySelector('.interstitial-timer');
+      const downloadBtn = document.getElementById('downloadBtn');
+
+      // Reset timer display
+      timerDiv.innerHTML = '<span id="countdownTimer">5</span>초 후에 다운로드할 수 있습니다';
+      const timerSpan = document.getElementById('countdownTimer');
+
+      overlay.classList.add('active');
+      downloadBtn.disabled = true;
+
+      // Start countdown
+      let seconds = 5;
+      timerSpan.textContent = seconds;
+
+      countdownInterval = setInterval(() => {
+        seconds--;
+        timerSpan.textContent = seconds;
+
+        if (seconds <= 0) {
+          clearInterval(countdownInterval);
+          downloadBtn.disabled = false;
+          timerSpan.parentElement.innerHTML = '준비 완료!';
+        }
+      }, 1000);
+
+      // Try to load the interstitial ad
+      try {
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (e) {
+        console.log('Interstitial ad not loaded');
+      }
+    }
+
+    function closeInterstitial() {
+      const overlay = document.getElementById('interstitialOverlay');
+      overlay.classList.remove('active');
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+      }
+    }
+
+    async function proceedDownload() {
+      closeInterstitial();
+      await performImageDownload();
+    }
+
+    async function performImageDownload() {
       const exportContainer = document.getElementById('exportContainer');
       exportContainer.innerHTML = '';
 
