@@ -1183,13 +1183,8 @@
         <p>이미지 저장을 준비하고 있습니다</p>
       </div>
       <div class="interstitial-body">
-        <div class="interstitial-ad-container">
-          <ins class="adsbygoogle"
-               style="display:block"
-               data-ad-client="ca-pub-2006819706382142"
-               data-ad-slot="6349505015"
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
+        <div class="interstitial-ad-container" id="interstitialAdContainer">
+          <!-- Ad will be dynamically inserted here -->
         </div>
       </div>
       <div class="interstitial-footer">
@@ -1523,10 +1518,22 @@
       const overlay = document.getElementById('interstitialOverlay');
       const timerDiv = document.querySelector('.interstitial-timer');
       const downloadBtn = document.getElementById('downloadBtn');
+      const adContainer = document.getElementById('interstitialAdContainer');
 
       // Reset timer display
       timerDiv.innerHTML = '<span id="countdownTimer">5</span>초 후에 다운로드할 수 있습니다';
       const timerSpan = document.getElementById('countdownTimer');
+
+      // Clear previous ad and create new ad element
+      adContainer.innerHTML = '';
+      const adElement = document.createElement('ins');
+      adElement.className = 'adsbygoogle';
+      adElement.style.display = 'block';
+      adElement.setAttribute('data-ad-client', 'ca-pub-2006819706382142');
+      adElement.setAttribute('data-ad-slot', '6349505015');
+      adElement.setAttribute('data-ad-format', 'auto');
+      adElement.setAttribute('data-full-width-responsive', 'true');
+      adContainer.appendChild(adElement);
 
       overlay.classList.add('active');
       downloadBtn.disabled = true;
@@ -1546,12 +1553,14 @@
         }
       }, 1000);
 
-      // Try to load the interstitial ad
-      try {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {
-        console.log('Interstitial ad not loaded');
-      }
+      // Push the ad after a small delay to ensure modal is visible
+      setTimeout(() => {
+        try {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+          console.log('Interstitial ad not loaded');
+        }
+      }, 100);
     }
 
     function closeInterstitial() {
