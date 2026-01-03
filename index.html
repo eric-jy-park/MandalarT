@@ -177,7 +177,8 @@
 
     html, body {
       height: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     body {
@@ -314,7 +315,6 @@
       justify-content: center;
       align-items: center;
       padding: 0.25rem;
-      min-height: 0;
     }
 
     /* Grid Wrapper */
@@ -900,17 +900,16 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      overflow: hidden;
     }
 
     .content-with-ads {
       display: flex;
       flex: 1;
       justify-content: center;
-      align-items: stretch;
+      align-items: flex-start;
       gap: 0;
       min-height: 0;
-      overflow: hidden;
+      padding-bottom: 1rem;
     }
 
     .ad-sidebar {
@@ -956,6 +955,7 @@
       flex-direction: column;
       max-width: 900px;
       min-width: 0;
+      min-height: fit-content;
     }
 
     /* Hide ads on smaller screens */
