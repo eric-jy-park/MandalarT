@@ -148,6 +148,9 @@
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <script defer src="https://umami.ericpark.me/script.js" data-website-id="84d37d5b-4ead-4f16-821a-c4eb07e64dad"></script>
 
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2006819706382142" crossorigin="anonymous"></script>
+
   <style>
     :root {
       --paper-cream: #f8f4e8;
@@ -891,54 +894,166 @@
         animation: none !important;
       }
     }
+
+    /* ==================== SIDEBAR ADS ==================== */
+    .page-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .content-with-ads {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      align-items: stretch;
+      gap: 0;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .ad-sidebar {
+      width: 160px;
+      min-width: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 0.5rem;
+      background: transparent;
+    }
+
+    .ad-sidebar-left {
+      order: -1;
+    }
+
+    .ad-sidebar-right {
+      order: 1;
+    }
+
+    .ad-container {
+      width: 160px;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--border-color);
+      border-radius: 8px;
+      background: var(--paper-light);
+    }
+
+    .ad-container ins {
+      display: block;
+      width: 160px;
+      height: 600px;
+    }
+
+    /* Center content area */
+    .center-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 900px;
+      min-width: 0;
+    }
+
+    /* Hide ads on smaller screens */
+    @media (max-width: 1200px) {
+      .ad-sidebar {
+        display: none;
+      }
+      .content-with-ads {
+        padding: 0;
+      }
+    }
+
+    /* Adjust main container when ads are visible */
+    @media (min-width: 1201px) {
+      .main-container {
+        padding: 0.25rem 0;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header" role="banner">
-    <h1 class="logo">MandalarT</h1>
-    <p class="tagline">목표를 디자인하고, 실천하세요</p>
-  </header>
+  <div class="page-wrapper">
+    <!-- Header -->
+    <header class="header" role="banner">
+      <h1 class="logo">MandalarT</h1>
+      <p class="tagline">목표를 디자인하고, 실천하세요</p>
+    </header>
 
-  <!-- Toolbar -->
-  <nav class="toolbar" role="toolbar" aria-label="도구 모음">
-    <button class="btn btn-primary" onclick="openTipsModal()" aria-label="만다라트 작성 팁 보기">만다라트 팁</button>
-    <button class="btn" onclick="loadExample()" aria-label="예시 데이터 불러오기">예시 보기</button>
-    <button class="btn" onclick="saveAsImage()" aria-label="만다라트를 이미지로 저장">이미지 저장</button>
-    <button class="btn btn-primary" onclick="clearAll()" aria-label="모든 내용 초기화">초기화</button>
-  </nav>
+    <!-- Toolbar -->
+    <nav class="toolbar" role="toolbar" aria-label="도구 모음">
+      <button class="btn btn-primary" onclick="openTipsModal()" aria-label="만다라트 작성 팁 보기">만다라트 팁</button>
+      <button class="btn" onclick="loadExample()" aria-label="예시 데이터 불러오기">예시 보기</button>
+      <button class="btn" onclick="saveAsImage()" aria-label="만다라트를 이미지로 저장">이미지 저장</button>
+      <button class="btn btn-primary" onclick="clearAll()" aria-label="모든 내용 초기화">초기화</button>
+    </nav>
 
-  <!-- Hidden export container -->
-  <div id="exportContainer" style="position: absolute; left: -9999px; top: 0;"></div>
+    <!-- Hidden export container -->
+    <div id="exportContainer" style="position: absolute; left: -9999px; top: 0;"></div>
 
-  <!-- Legend -->
-  <div class="legend" role="list" aria-label="범례">
-    <div class="legend-item" role="listitem">
-      <div class="legend-color center" aria-hidden="true"></div>
-      <span>핵심 목표</span>
-    </div>
-    <div class="legend-item" role="listitem">
-      <div class="legend-color sub" aria-hidden="true"></div>
-      <span>세부 목표</span>
-    </div>
-    <div class="legend-item" role="listitem">
-      <div class="legend-color action" aria-hidden="true"></div>
-      <span>실천 항목</span>
+    <!-- Content with Ads -->
+    <div class="content-with-ads">
+      <!-- Left Ad Sidebar -->
+      <aside class="ad-sidebar ad-sidebar-left" aria-label="광고">
+        <div class="ad-container">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-2006819706382142"
+               data-ad-slot="9155759078"
+               data-ad-format="vertical"
+               data-full-width-responsive="false"></ins>
+        </div>
+      </aside>
+
+      <!-- Center Content -->
+      <div class="center-content">
+        <!-- Legend -->
+        <div class="legend" role="list" aria-label="범례">
+          <div class="legend-item" role="listitem">
+            <div class="legend-color center" aria-hidden="true"></div>
+            <span>핵심 목표</span>
+          </div>
+          <div class="legend-item" role="listitem">
+            <div class="legend-color sub" aria-hidden="true"></div>
+            <span>세부 목표</span>
+          </div>
+          <div class="legend-item" role="listitem">
+            <div class="legend-color action" aria-hidden="true"></div>
+            <span>실천 항목</span>
+          </div>
+        </div>
+
+        <!-- Main Grid -->
+        <main class="main-container" role="main">
+          <div class="mandalart-wrapper">
+            <div class="mandalart-grid" id="mandalartGrid" role="grid" aria-label="만다라트 차트 - 클릭하여 편집"></div>
+          </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="footer-divider"></div>
+          <p>마음을 디자인하고, 삶을 변화시키세요</p>
+        </footer>
+      </div>
+
+      <!-- Right Ad Sidebar -->
+      <aside class="ad-sidebar ad-sidebar-right" aria-label="광고">
+        <div class="ad-container">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-2006819706382142"
+               data-ad-slot="9155759078"
+               data-ad-format="vertical"
+               data-full-width-responsive="false"></ins>
+        </div>
+      </aside>
     </div>
   </div>
-
-  <!-- Main Grid -->
-  <main class="main-container" role="main">
-    <div class="mandalart-wrapper">
-      <div class="mandalart-grid" id="mandalartGrid" role="grid" aria-label="만다라트 차트 - 클릭하여 편집"></div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-divider"></div>
-    <p>마음을 디자인하고, 삶을 변화시키세요</p>
-  </footer>
 
   <!-- Modal -->
   <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTypeLabel">
@@ -1424,6 +1539,14 @@
       const touchLink = document.getElementById('apple-touch-icon');
       touchLink.href = touchCanvas.toDataURL('image/png');
     });
+
+    // Initialize AdSense ads
+    try {
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.log('AdSense not loaded');
+    }
 
   </script>
 </body>
