@@ -1,0 +1,20 @@
+{
+  "name": "MandalarT - 목표를 디자인하세요",
+  "short_name": "MandalarT",
+  "description": "만다라트(Mandala Chart)로 목표를 체계적으로 설계하세요. 무료 온라인 만다라트 도구.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f4e8",
+  "theme_color": "#f8f4e8",
+  "orientation": "any",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["productivity", "utilities"]
+}
