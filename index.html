@@ -1281,6 +1281,26 @@
 
     let currentEdit = null;
 
+    // Umami Analytics Tracking Helper
+    function track(eventName, data = {}) {
+      if (typeof umami !== 'undefined' && umami.track) {
+        try {
+          umami.track(eventName, data);
+        } catch (e) {
+          console.debug('Tracking error:', e);
+        }
+      }
+    }
+
+    // Helper to count filled cells
+    function getFilledCellsCount() {
+      let count = 0;
+      if (gridData.mainGoal) count++;
+      count += gridData.subGoals.filter(g => g).length;
+      count += gridData.actions.flat().filter(a => a).length;
+      return count;
+    }
+
     const getSectionIndex = (row, col) => {
       const sectionRow = Math.floor(row / 3);
       const sectionCol = Math.floor(col / 3);
@@ -1399,6 +1419,23 @@
     function openModal(type, subGoalIdx, actionIdx) {
       currentEdit = { type, subGoalIdx, actionIdx };
 
+      // Determine if editing existing or new content
+      let existingValue = '';
+      if (type === 'main') {
+        existingValue = gridData.mainGoal;
+      } else if (type === 'sub') {
+        existingValue = gridData.subGoals[subGoalIdx];
+      } else if (type === 'action') {
+        existingValue = gridData.actions[subGoalIdx][actionIdx];
+      }
+
+      track('cell_open', {
+        cell_type: type,
+        is_edit: !!existingValue,
+        sub_goal_idx: subGoalIdx,
+        action_idx: actionIdx
+      });
+
       const overlay = document.getElementById('modalOverlay');
       const typeDot = document.getElementById('modalTypeDot');
       const typeLabel = document.getElementById('modalTypeLabel');
@@ -1434,16 +1471,21 @@
     }
 
     function closeModal() {
+      if (currentEdit) {
+        track('cell_cancel', { cell_type: currentEdit.type });
+      }
       const overlay = document.getElementById('modalOverlay');
       overlay.classList.remove('active');
       currentEdit = null;
     }
 
     function openTipsModal() {
+      track('tips_open');
       document.getElementById('tipsModalOverlay').classList.add('active');
     }
 
     function closeTipsModal() {
+      track('tips_close');
       document.getElementById('tipsModalOverlay').classList.remove('active');
     }
 
@@ -1451,17 +1493,34 @@
       const textarea = document.getElementById('modalTextarea');
       const value = textarea.value.trim();
 
+      // Get previous value to check if this is new or edit
+      let previousValue = '';
       if (currentEdit.type === 'main') {
+        previousValue = gridData.mainGoal;
         gridData.mainGoal = value;
       } else if (currentEdit.type === 'sub') {
+        previousValue = gridData.subGoals[currentEdit.subGoalIdx];
         gridData.subGoals[currentEdit.subGoalIdx] = value;
       } else if (currentEdit.type === 'action') {
+        previousValue = gridData.actions[currentEdit.subGoalIdx][currentEdit.actionIdx];
         gridData.actions[currentEdit.subGoalIdx][currentEdit.actionIdx] = value;
       }
 
+      // Track the save action
+      track('cell_save', {
+        cell_type: currentEdit.type,
+        was_edit: !!previousValue,
+        has_content: !!value,
+        filled_cells: getFilledCellsCount()
+      });
+
       saveToStorage();
       generateGrid();
-      closeModal();
+
+      // Reset currentEdit before closing to prevent double tracking
+      const editType = currentEdit.type;
+      currentEdit = null;
+      document.getElementById('modalOverlay').classList.remove('active');
     }
 
     document.getElementById('modalOverlay').addEventListener('click', (e) => {
@@ -1514,6 +1573,9 @@
     let countdownInterval = null;
 
     function saveAsImage() {
+      const filledCells = getFilledCellsCount();
+      track('save_image_click', { filled_cells: filledCells });
+
       // Show interstitial ad modal
       const overlay = document.getElementById('interstitialOverlay');
       const timerDiv = document.querySelector('.interstitial-timer');
@@ -1564,6 +1626,7 @@
     }
 
     function closeInterstitial() {
+      track('ad_close');
       const overlay = document.getElementById('interstitialOverlay');
       overlay.classList.remove('active');
       if (countdownInterval) {
@@ -1572,7 +1635,13 @@
     }
 
     async function proceedDownload() {
-      closeInterstitial();
+      track('download_proceed');
+      // Close without triggering ad_close tracking
+      const overlay = document.getElementById('interstitialOverlay');
+      overlay.classList.remove('active');
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+      }
       await performImageDownload();
     }
 
@@ -1642,8 +1711,11 @@
         link.download = 'mandalart-chart.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
+
+        track('download_success', { filled_cells: getFilledCellsCount() });
       } catch (err) {
         console.error('Export failed:', err);
+        track('download_fail', { error: err.message });
         alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
       }
 
@@ -1653,7 +1725,11 @@
     function clearAll() {
       if (!hasExistingData()) return;
 
+      const cellCount = getFilledCellsCount();
+      track('clear_click', { filled_cells: cellCount });
+
       if (confirm('모든 내용이 삭제됩니다. 계속하시겠습니까?')) {
+        track('clear_confirm', { cleared_cells: cellCount });
         gridData = {
           mainGoal: '',
           subGoals: Array(8).fill(''),
@@ -1661,6 +1737,8 @@
         };
         localStorage.removeItem('mandalartData');
         generateGrid();
+      } else {
+        track('clear_cancel');
       }
     }
 
@@ -1672,11 +1750,17 @@
     }
 
     function loadExample() {
-      if (hasExistingData()) {
+      const hadData = hasExistingData();
+      track('example_click', { had_existing_data: hadData });
+
+      if (hadData) {
         if (!confirm('현재 작성된 내용이 모두 삭제되고 예시 데이터로 대체됩니다. 계속하시겠습니까?')) {
+          track('example_cancel');
           return;
         }
       }
+
+      track('example_load');
 
       gridData = {
         mainGoal: '1차 드래프트 8개 팀',
@@ -1703,6 +1787,13 @@
 
     loadFromStorage();
     generateGrid();
+
+    // Track session start
+    const isReturningUser = hasExistingData();
+    track('session_start', {
+      returning_user: isReturningUser,
+      filled_cells: getFilledCellsCount()
+    });
 
     // Generate favicon and apple-touch-icon with Caveat font
     document.fonts.ready.then(() => {
